@@ -1,0 +1,46 @@
+import pgzrun
+
+WIDTH = 800
+HEIGHT = 600
+from random import randint, sample
+apple = Actor("apple")
+pineapple = Actor("pineapple")
+orange = Actor("orange")
+kiwi = Actor("kiwi")
+actors = [apple, pineapple, orange, kiwi]
+
+score = 0
+def draw():
+    screen.clear()
+    for actor in actors:
+        actor.draw()
+    print("Score:",score)
+
+def place_actors():
+    selected_actors = sample(actors,2)
+    for actor in selected_actors:
+        actor.pos = (randint(100, WIDTH), randint(100, HEIGHT))
+
+
+def on_mouse_down(pos):
+    global score
+    clicked = False
+    for actor in actors:
+        if actor.collidepoint(pos):
+            if actor == apple:
+                print("Good shot! You hit the apple!")
+                score += 1
+            elif actor == pineapple:
+                print("Oops! You hit the pineapple!")
+            elif actor == orange:
+                print("Oops! You hit the orange!")
+            elif actor == kiwi:
+                print("Oops! You hit the kiwi!")
+            place_actors()
+            clicked = True
+            break
+    if not clicked:
+        print("Game over!")
+        quit()
+place_actors()
+pgzrun.go()
